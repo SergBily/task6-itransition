@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Mail = () => (
+const Mail = (): JSX.Element => (
   <div>
     <p>
       Mail

@@ -6,7 +6,8 @@ import TextField from '@mui/material/TextField';
 import { Container } from '@mui/system';
 import { Link } from 'react-router-dom';
 import './login.scss';
-import axios from 'axios';
+import { toast } from 'react-toastify';
+import AuthService from '../../services/AuthService';
 
 const Login = () => {
   const [name, setName] = useState<string>('');
@@ -17,8 +18,10 @@ const Login = () => {
 
   const hendleOnSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const response = await axios.get('https://task6-itransition.herokuapp.com/main');
-    console.log(response);
+    const response = await AuthService.login(name);
+    if (response.status === 200) {
+      toast.success('hello', { autoClose: 2000, position: 'bottom-right' });
+    }
   };
 
   return (
