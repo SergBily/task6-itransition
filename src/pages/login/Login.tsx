@@ -6,6 +6,7 @@ import TextField from '@mui/material/TextField';
 import { Container } from '@mui/system';
 import { Link } from 'react-router-dom';
 import './login.scss';
+import axios from 'axios';
 
 const Login = () => {
   const [name, setName] = useState<string>('');
@@ -14,9 +15,10 @@ const Login = () => {
     setName(event.target.value);
   };
 
-  const hendleOnSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const hendleOnSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(name);
+    const response = await axios.get('https://task6-itransition.herokuapp.com/main');
+    console.log(response);
   };
 
   return (
