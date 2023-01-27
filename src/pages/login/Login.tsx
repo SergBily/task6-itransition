@@ -19,6 +19,8 @@ const Login = () => {
   const hendleOnSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const response = await AuthService.login(name);
+    console.log(response.data);
+
     if (response.status === 200) {
       toast.success('hello', { autoClose: 2000, position: 'bottom-right' });
     }
