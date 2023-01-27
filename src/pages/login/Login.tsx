@@ -21,11 +21,11 @@ const Login = () => {
     event.preventDefault();
     const response = await AuthService.login(name);
     console.log(response.data);
-
     if (response.status === 200) {
       toast.success('You are sign in!', { autoClose: 2000, position: 'bottom-right' });
       navigate('/mail');
     }
+    toast.error('Уrror try again!', { autoClose: 2000, position: 'bottom-right' });
   };
 
   return (

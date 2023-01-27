@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Grid from '@mui/material/Grid';
 import FormControl from '@mui/material/FormControl';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -9,6 +9,8 @@ import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
 import MessageModel from '../models/MessageModel';
+import UserService from '../services/UserService';
+import UserModel from '../models/userModel';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -18,15 +20,23 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-const name = [{ name: 'kiril' }, { name: 'andrey' }, { name: 'sergey' }];
-
 const SendForm = () => {
+  const [allUser, setAllUser] = useState<UserModel[]>([]);
   const [message, setMessage] = useState<MessageModel>({
     from: '',
     to: '',
     title: '',
     body: '',
   });
+
+  const getUsers = async (): Promise<void> => {
+    const users: UserModel[] = await UserService.getAllUsers();
+    setAllUser(users);
+  };
+
+  useEffect(() => {
+    getUsers();
+  }, []);
 
   const changeHandler = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setMessage({ ...message, [event.target.id]: event.target.value });
@@ -73,8 +83,8 @@ const SendForm = () => {
         id="to"
         size="medium"
         onChange={(event, value) => setMessage({ ...message, to: (value?.name as string) })}
-        options={name}
-        isOptionEqualToValue={(option, value) => option.name === value.name}
+        options={allUser}
+        isOptionEqualToValue={(option, value) => option === value}
         getOptionLabel={(option) => option.name}
         renderInput={(params) => (
           <TextField
