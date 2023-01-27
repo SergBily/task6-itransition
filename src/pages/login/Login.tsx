@@ -4,13 +4,14 @@ import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import { Container } from '@mui/system';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './login.scss';
 import { toast } from 'react-toastify';
 import AuthService from '../../services/AuthService';
 
 const Login = () => {
   const [name, setName] = useState<string>('');
+  const navigate = useNavigate();
 
   const changeHandler = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setName(event.target.value);
@@ -22,7 +23,8 @@ const Login = () => {
     console.log(response.data);
 
     if (response.status === 200) {
-      toast.success('hello', { autoClose: 2000, position: 'bottom-right' });
+      toast.success('You are sign in!', { autoClose: 2000, position: 'bottom-right' });
+      navigate('/mail');
     }
   };
 
