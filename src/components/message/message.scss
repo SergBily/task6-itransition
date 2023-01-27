@@ -1,0 +1,71 @@
+@import '../../styles/default.scss';
+
+.message__btn{
+  @include wh (95%, 5rem);
+  @include flex($justify-content: flex-start);
+  gap: 0.7rem;
+  font-size: 1.1rem;
+  border-radius: 30px;
+  border: none;
+  color: white;
+  vertical-align: top;
+  -webkit-transition: .6s ease-in-out;
+  transition: .6s ease-in-out;
+}
+
+.message__btn:hover{
+  cursor: pointer;
+}
+
+.message__btn:focus{
+  outline: none;
+}
+
+.message__btn:first-of-type{
+  margin-right: 30px;
+}
+
+.neumorphic{
+  background: linear-gradient(145deg, #76d5ff, #63b3e6);
+  box-shadow: 20px 20px 30px #1e7689,
+            -20px -20px 30px #7fe5ff;
+  border: 3px solid rgba(255, 255, 255, .4);
+}
+
+.neumorphic-pressed{
+  background: linear-gradient(145deg, #63b3e6, #76d5ff);
+  -webkit-box-shadow: inset 15px 15px 20px -20px #00000080;
+  -moz-box-shadow: inset 15px 15px 20px -20px #00000080;
+  box-shadow: inset 15px 15px 20px -20px #00000080;
+  color: black;
+}
+
+.neumorphic:focus,
+.neumorphic:focus,
+.neumorphic-pressed:focus,
+.neumorphic-pressed:hover {
+  border: 3px solid #2e4a70bf;
+}
+
+.message__title,
+.message__icon {
+  display: inline;
+  vertical-align: middle;
+  text-align: center
+}
+
+.message__icon {
+  @include wh(2rem,2rem);
+  padding-top: 25px;
+  line-height: 2em;
+  text-align: center;
+  padding: calc((2rem - 2rem / 1.4142) / 2);
+  border: 1px solid black;
+  background-color: #2b97f1;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  -webkit-border-radius: 20p  ;
+}
