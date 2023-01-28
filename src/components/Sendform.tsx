@@ -27,8 +27,14 @@ const currentUser: string[] = [getLocalStorage('user').name];
 const SendForm = () => {
   const [contacts, setContacts] = useState<UserModel[]>([]);
   const [message, setMessage] = useState<MessageModel>({
-    from: '',
-    to: '',
+    sender: {
+      id: '',
+      name: '',
+    },
+    recipient: {
+      id: '',
+      name: '',
+    },
     title: '',
     body: '',
   });
@@ -46,9 +52,21 @@ const SendForm = () => {
     setMessage({ ...message, [event.target.id]: event.target.value });
   };
 
+  const addId = () => ({
+    ...message,
+    sender: {
+      ...message.sender,
+      id: getLocalStorage('user')._id,
+    },
+    recipient: {
+      ...message.recipient,
+      id: contacts.find((e) => e.name === message.recipient.name)?._id as string,
+    },
+  });
+
   const hendleOnSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    MessageService.sendMessage(message);
+    MessageService.sendMessage(addId());
   };
 
   return (
@@ -77,7 +95,10 @@ const SendForm = () => {
         <Autocomplete
           id="from"
           size="medium"
-          onChange={(event, value) => setMessage({ ...message, from: (value as string) })}
+          onChange={(event, value) => setMessage({
+            ...message,
+            sender: { ...message.sender, name: (value as string) },
+          })}
           options={currentUser}
           isOptionEqualToValue={(option, value) => option === value}
           getOptionLabel={(option) => option}
@@ -85,7 +106,7 @@ const SendForm = () => {
             <TextField
               required
               {...params}
-              value={message.from}
+              value={message.sender}
               onChange={changeHandler}
               variant="standard"
               label="From:"
@@ -97,7 +118,12 @@ const SendForm = () => {
         <Autocomplete
           id="to"
           size="medium"
-          onChange={(event, value) => setMessage({ ...message, to: (value?.name as string) })}
+          onChange={
+            (event, value) => setMessage({
+              ...message,
+              recipient: { ...message.recipient, name: (value?.name as string) },
+            })
+}
           options={contacts}
           isOptionEqualToValue={(option, value) => option.name === value.name}
           getOptionLabel={(option) => option.name}
@@ -105,7 +131,7 @@ const SendForm = () => {
             <TextField
               required
               {...params}
-              value={message.to}
+              value={message.recipient}
               onChange={changeHandler}
               variant="standard"
               label="To:"

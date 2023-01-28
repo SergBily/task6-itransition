@@ -1,14 +1,26 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Message from './message/Message';
+import MessageService from '../services/MessageService';
+import { getLocalStorage } from '../utils/localStorage';
+import MessageModel from '../models/MessageModel';
 
 const InboxMessages = () => {
-  const vv = 0;
-  console.log(vv);
+  const [messages, setMessages] = useState<MessageModel[]>([]);
+  const uniqueKey = () => Math.random();
+
+  const getMessages = async () => {
+    const m = await MessageService.getMessages(getLocalStorage('user')._id);
+    setMessages(m);
+  };
+
+  useEffect(() => {
+    getMessages();
+  }, []);
 
   return (
     <div>
@@ -22,10 +34,16 @@ const InboxMessages = () => {
         </AccordionSummary>
         <AccordionDetails>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-            <Message title="hello my friend. Do you how i like you" />
-            <Message title="HEllo" />
-            <Message title="hello my friend. Do you how i like you" />
-            <Message title="hello my friend. Do you how i like you" />
+            {messages.map(
+              (m) => (
+                <Message
+                  key={uniqueKey()}
+                  title={m.title}
+                  sender={m.sender}
+                  keyAvatar={uniqueKey()}
+                />
+              ),
+            )}
           </div>
         </AccordionDetails>
       </Accordion>

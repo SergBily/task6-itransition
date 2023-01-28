@@ -4,7 +4,7 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import Message from './message/Message';
+// import Message from './message/Message';
 
 const SendMessages = () => {
   const vv = 0;
@@ -21,12 +21,7 @@ const SendMessages = () => {
           <Typography sx={{ color: '#fff', fontSize: '1.5rem' }}>SEND</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-            <Message title="hello my friend" />
-            <Message title="hello my friend" />
-            <Message title="hello my friend" />
-            <Message title="hello my friend" />
-          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }} />
         </AccordionDetails>
       </Accordion>
     </div>

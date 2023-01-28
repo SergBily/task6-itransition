@@ -4,10 +4,15 @@ import './message.scss';
 import { deepPurple } from '@mui/material/colors';
 
 interface MessageProps {
-  title: string
+  title: string,
+  sender: {
+    name: string,
+    id: string
+  }
+  keyAvatar: number
 }
 
-const Message = ({ title }: MessageProps) => {
+const Message = ({ title, sender, keyAvatar }: MessageProps) => {
   const openMessage = (e: React.MouseEvent<HTMLButtonElement>) => {
     const { currentTarget } = e;
     (currentTarget as HTMLButtonElement).classList.add('neumorphic-pressed');
@@ -15,8 +20,12 @@ const Message = ({ title }: MessageProps) => {
 
   return (
     <button type="button" className="message__btn neumorphic" onClick={openMessage}>
-      <Avatar sx={{ bgcolor: deepPurple[500] }}>MW</Avatar>
-      {/* <p className="message__icon">MW</p> */}
+      <Avatar
+        key={keyAvatar}
+        sx={{ bgcolor: deepPurple[500] }}
+      >
+        {sender.name[0].toUpperCase()}
+      </Avatar>
       <p className="message__title">{title}</p>
     </button>
   );
