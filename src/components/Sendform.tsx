@@ -21,7 +21,7 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 const SendForm = () => {
-  const [allUser, setAllUser] = useState<UserModel[]>([]);
+  const [contacts, setContacts] = useState<UserModel[]>([]);
   const [message, setMessage] = useState<MessageModel>({
     from: '',
     to: '',
@@ -29,13 +29,13 @@ const SendForm = () => {
     body: '',
   });
 
-  const getUsers = async (): Promise<void> => {
+  const getContacts = async (): Promise<void> => {
     const users: UserModel[] = await UserService.getAllUsers();
-    setAllUser(users);
+    setContacts(users);
   };
 
   useEffect(() => {
-    getUsers();
+    getContacts();
   }, []);
 
   const changeHandler = (event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -83,7 +83,7 @@ const SendForm = () => {
         id="to"
         size="medium"
         onChange={(event, value) => setMessage({ ...message, to: (value?.name as string) })}
-        options={allUser}
+        options={contacts}
         isOptionEqualToValue={(option, value) => option === value}
         getOptionLabel={(option) => option.name}
         renderInput={(params) => (

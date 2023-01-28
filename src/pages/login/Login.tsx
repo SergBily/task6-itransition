@@ -8,6 +8,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import './login.scss';
 import { toast } from 'react-toastify';
 import AuthService from '../../services/AuthService';
+import { setLocalStorage } from '../../utils/localStorage';
+import UserModel from '../../models/userModel';
 
 const Login = () => {
   const [name, setName] = useState<string>('');
@@ -23,7 +25,7 @@ const Login = () => {
     const { data } = response;
     console.log(response.data);
     if (response.status === 200) {
-      localStorage.setItem('name', `${data.name}`);
+      setLocalStorage('user', data as UserModel);
       toast.success('You are sign in!', { autoClose: 2000, position: 'bottom-right' });
       navigate('/mail');
     } else {
