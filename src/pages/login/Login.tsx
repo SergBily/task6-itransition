@@ -20,12 +20,15 @@ const Login = () => {
   const hendleOnSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const response = await AuthService.login(name);
+    const { data } = response;
     console.log(response.data);
     if (response.status === 200) {
+      localStorage.setItem('name', `${data.name}`);
       toast.success('You are sign in!', { autoClose: 2000, position: 'bottom-right' });
       navigate('/mail');
+    } else {
+      toast.error('Уrror try again!', { autoClose: 2000, position: 'bottom-right' });
     }
-    toast.error('Уrror try again!', { autoClose: 2000, position: 'bottom-right' });
   };
 
   return (

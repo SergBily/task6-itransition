@@ -1,18 +1,31 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.scss';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { Login, Mail } from './pages';
 import 'react-toastify/dist/ReactToastify.css';
 
-const App = () => (
-  <div className="wrapper">
-    <Routes>
-      <Route path="login" element={<Login />} />
-      <Route path="mail" element={<Mail />} />
-    </Routes>
-    <ToastContainer />
-  </div>
-);
+const App = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const isUser: boolean = !!localStorage.getItem('user');
+    if (isUser) {
+      navigate('/mail');
+    }
+  }, []);
+
+  return (
+    <div className="wrapper">
+      <Routes>
+        <Route path="/" element={<Login />}>
+          <Route path="login" element={<Login />} />
+        </Route>
+        <Route path="mail" element={<Mail />} />
+      </Routes>
+      <ToastContainer />
+    </div>
+  );
+};
 
 export default App;
