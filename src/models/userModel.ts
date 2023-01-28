@@ -1,6 +1,7 @@
 interface UserModel {
   name: string,
-  status: boolean
+  status: boolean,
+  _id: string
 }
 
 export default UserModel;

@@ -4,12 +4,13 @@ import { Routes, Route, useNavigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { Login, Mail } from './pages';
 import 'react-toastify/dist/ReactToastify.css';
+import { getLocalStorage } from './utils/localStorage';
 
 const App = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const isUser: boolean = !!localStorage.getItem('user');
+    const isUser: boolean = !!getLocalStorage('user');
     if (isUser) {
       navigate('/mail');
     }
