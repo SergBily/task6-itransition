@@ -4,13 +4,14 @@ import { useNavigate } from 'react-router-dom';
 import AuthService from '../services/AuthService';
 import { getLocalStorage } from '../utils/localStorage';
 import UserModel from '../models/userModel';
+import { SocketControl } from '../socket/socket';
 
 const Logout = () => {
   const navigate = useNavigate();
   const currentUser: UserModel = getLocalStorage('user');
   const exit = async () => {
     AuthService.logout(currentUser._id);
-    localStorage.removeItem('user');
+    SocketControl.disconnect();
     navigate('/login');
   };
 

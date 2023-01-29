@@ -13,6 +13,7 @@ import UserService from '../services/UserService';
 import UserModel from '../models/userModel';
 import { getLocalStorage } from '../utils/localStorage';
 import MessageService from '../services/MessageService';
+import MessageHandlers from '../socket/messageHandlers';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -21,8 +22,6 @@ const Item = styled(Paper)(({ theme }) => ({
   textAlign: 'center',
   color: theme.palette.text.secondary,
 }));
-
-const currentUser: string[] = [getLocalStorage('user').name];
 
 const SendForm = () => {
   const [contacts, setContacts] = useState<UserModel[]>([]);
@@ -38,6 +37,7 @@ const SendForm = () => {
     title: '',
     body: '',
   });
+  const currentUser: string[] = [getLocalStorage('user').name];
 
   const getContacts = async (): Promise<void> => {
     const users: UserModel[] = await UserService.getAllUsers();
@@ -66,7 +66,9 @@ const SendForm = () => {
 
   const hendleOnSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    MessageService.sendMessage(addId());
+    const m = addId();
+    MessageService.sendMessage(m);
+    MessageHandlers.sendMessage(m);
   };
 
   return (

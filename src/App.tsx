@@ -4,14 +4,15 @@ import { Routes, Route, useNavigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { Login, Mail } from './pages';
 import 'react-toastify/dist/ReactToastify.css';
-import { getLocalStorage } from './utils/localStorage';
+import { SocketControl } from './socket/socket';
 
 const App = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const isUser: boolean = !!getLocalStorage('user');
+    const isUser: boolean = !!localStorage.getItem('sessionID');
     if (isUser) {
+      SocketControl.reconnect();
       navigate('/mail');
     }
   }, []);

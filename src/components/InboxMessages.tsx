@@ -8,6 +8,7 @@ import Message from './message/Message';
 import MessageService from '../services/MessageService';
 import { getLocalStorage } from '../utils/localStorage';
 import MessageModel from '../models/MessageModel';
+import { socket } from '../socket/socket';
 
 const InboxMessages = () => {
   const [messages, setMessages] = useState<MessageModel[]>([]);
@@ -17,6 +18,10 @@ const InboxMessages = () => {
     const m = await MessageService.getMessages(getLocalStorage('user')._id);
     setMessages(m);
   };
+
+  socket.on('message:receive', (m) => {
+    setMessages([...messages, m]);
+  });
 
   useEffect(() => {
     getMessages();
