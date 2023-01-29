@@ -74,7 +74,7 @@ const SendForm = ({ setisSendedMessage }: SendFormProps) => {
     const m = addId();
     MessageHandlers.sendMessage(m);
     setisSendedMessage(true);
-    setMessage(defaultMessage);
+    setMessage({ ...message, title: '', body: '' });
     toast.success('Mail has been sent!', { autoClose: 2000, position: 'bottom-right' });
   };
 
