@@ -1,3 +1,3 @@
-const SERVER_URL = 'http://localhost:3001';
+const SERVER_URL = 'https://task6-itransition.herokuapp.com';
 
 export default SERVER_URL;
