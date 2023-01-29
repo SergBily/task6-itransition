@@ -22,9 +22,10 @@ const Item = styled(Paper)(({ theme }) => ({
   textAlign: 'center',
   color: theme.palette.text.secondary,
 }));
+const call = (p: boolean) => p;
 
 interface SendFormProps {
-  setisSendedMessage: (m: boolean) => void
+  setisSendedMessage: (m: typeof call) => void
 }
 
 const SendForm = ({ setisSendedMessage }: SendFormProps) => {
@@ -73,7 +74,7 @@ const SendForm = ({ setisSendedMessage }: SendFormProps) => {
     event.preventDefault();
     const m = addId();
     MessageHandlers.sendMessage(m);
-    setisSendedMessage(true);
+    setisSendedMessage((pre: any) => !pre);
     setMessage({ ...message, title: '', body: '' });
     toast.success('Mail has been sent!', { autoClose: 2000, position: 'bottom-right' });
   };
