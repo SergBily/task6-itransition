@@ -8,11 +8,11 @@ import TextField from '@mui/material/TextField';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
+import { toast } from 'react-toastify';
 import MessageModel from '../models/MessageModel';
 import UserService from '../services/UserService';
 import UserModel from '../models/userModel';
 import { getLocalStorage } from '../utils/localStorage';
-import MessageService from '../services/MessageService';
 import MessageHandlers from '../socket/messageHandlers';
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -23,12 +23,16 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-const SendForm = () => {
-  const [contacts, setContacts] = useState<UserModel[]>([]);
-  const [message, setMessage] = useState<MessageModel>({
+interface SendFormProps {
+  setisSendedMessage: (m: boolean) => void
+}
+
+const SendForm = ({ setisSendedMessage }: SendFormProps) => {
+  const currentUser: string[] = [getLocalStorage('user').name];
+  const defaultMessage: MessageModel = {
     sender: {
       id: '',
-      name: '',
+      name: currentUser[0],
     },
     recipient: {
       id: '',
@@ -36,9 +40,9 @@ const SendForm = () => {
     },
     title: '',
     body: '',
-  });
-
-  const currentUser: string[] = [getLocalStorage('user').name];
+  };
+  const [contacts, setContacts] = useState<UserModel[]>([]);
+  const [message, setMessage] = useState<MessageModel>(defaultMessage);
 
   const getContacts = async (): Promise<void> => {
     const users: UserModel[] = await UserService.getAllUsers();
@@ -68,8 +72,10 @@ const SendForm = () => {
   const hendleOnSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const m = addId();
-    MessageService.sendMessage(m);
     MessageHandlers.sendMessage(m);
+    setisSendedMessage(true);
+    setMessage(defaultMessage);
+    toast.success('Mail has been sent!', { autoClose: 2000, position: 'bottom-right' });
   };
 
   return (
@@ -143,7 +149,7 @@ const SendForm = () => {
           value={message.body}
           onChange={changeHandler}
           id="body"
-          label="Multiline"
+          label="Message"
           multiline
           minRows={25}
           fullWidth

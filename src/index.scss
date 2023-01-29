@@ -19,3 +19,15 @@ body {
   overflow: hidden;
   margin: 0;
 }
+
+::-webkit-scrollbar {
+  width: 16px;
+  height: 8px;
+  background-color: #1438617d;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #6ec7ff;
+  border-radius: 9em;
+  box-shadow: inset 1px 1px 10px #f3faf7;
+}

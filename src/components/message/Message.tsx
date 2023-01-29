@@ -31,7 +31,7 @@ const Message = ({
         key={keyAvatar}
         sx={{ bgcolor: deepPurple[500] }}
       >
-        {message.sender.name[0].toUpperCase()}
+        {message.sender.name.slice(0, 1).toUpperCase()}
       </Avatar>
       <p className="message__title">{message.title}</p>
     </button>

@@ -34,7 +34,7 @@ const InboxMessages = ({ setCurrentOpenMessage, setIsOpenMessage }: InboxMessage
 
   return (
     <div>
-      <Accordion sx={{ backgroundColor: 'transparent', border: 0 }}>
+      <Accordion sx={{ backgroundColor: 'transparent', border: 0 }} defaultExpanded>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"

@@ -20,11 +20,20 @@ const Item = styled(Paper)(({ theme }) => ({
 const Mail = () => {
   const [currentOpenMessage, setCurrentOpenMessage] = useState<ResponseMessageModel>();
   const [isOpenMessage, setIsOpenMessage] = useState<boolean>(false);
+  const [isSendedMessage, setisSendedMessage] = useState<boolean>(false);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={0} sx={{ minHeight: '100vh' }}>
-        <Grid item xs={3} sx={{ minHeight: '100%', backgroundColor: '#6ec7ff' }}>
+        <Grid
+          item
+          xs={3}
+          sx={{
+            maxHeight: '100vh',
+            backgroundColor: '#6ec7ff',
+            overflow: 'auto',
+          }}
+        >
           <Item sx={{ backgroundColor: 'transparent', border: 0 }}>
             <Logout />
           </Item>
@@ -35,7 +44,7 @@ const Mail = () => {
             />
           </Item>
           <Item sx={{ backgroundColor: 'transparent', border: 0 }}>
-            <SendMessages />
+            <SendMessages isSendedMessage={isSendedMessage} />
           </Item>
         </Grid>
         <Grid item xs={9} sx={{ minHeight: '100vh' }}>
@@ -46,7 +55,7 @@ const Mail = () => {
                 setIsOpenMessage={setIsOpenMessage}
               />
             )
-            : <SendForm />}
+            : <SendForm setisSendedMessage={setisSendedMessage} />}
         </Grid>
       </Grid>
     </Box>

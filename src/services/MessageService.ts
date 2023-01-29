@@ -11,4 +11,9 @@ export default class MessageService {
     const r = await $api.post('/message/get', { id });
     return r.data;
   }
+
+  static async getSendedMessages(id: string): Promise<ResponseMessageModel[]> {
+    const r = await $api.post('/message/getSended', { id });
+    return r.data;
+  }
 }
