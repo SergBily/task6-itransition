@@ -4,12 +4,13 @@ import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import { Container } from '@mui/system';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './login.scss';
 import { toast } from 'react-toastify';
 import AuthService from '../../services/AuthService';
 import { setLocalStorage } from '../../utils/localStorage';
 import UserModel from '../../models/userModel';
+import { SocketControl } from '../../socket/socket';
 
 const Login = () => {
   const [name, setName] = useState<string>('');
@@ -23,13 +24,13 @@ const Login = () => {
     event.preventDefault();
     const response = await AuthService.login(name);
     const { data } = response;
-    console.log(response.data);
     if (response.status === 200) {
       setLocalStorage('user', data as UserModel);
+      SocketControl.setUserName(name);
       toast.success('You are sign in!', { autoClose: 2000, position: 'bottom-right' });
       navigate('/mail');
     } else {
-      toast.error('Уrror try again!', { autoClose: 2000, position: 'bottom-right' });
+      toast.error('Error try again!', { autoClose: 2000, position: 'bottom-right' });
     }
   };
 
@@ -66,10 +67,6 @@ const Login = () => {
                 </Grid>
               </Grid>
             </Paper>
-            <div className="sign__redirect">
-              <p>No account?</p>
-              <Link to="/registration" className="sign__link">Sign up</Link>
-            </div>
           </Grid>
         </Container>
       </form>
