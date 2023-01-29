@@ -2,31 +2,38 @@ import React from 'react';
 import Avatar from '@mui/material/Avatar';
 import './message.scss';
 import { deepPurple } from '@mui/material/colors';
+import ResponseMessageModel from '../../models/ResponseMessageModel';
 
 interface MessageProps {
-  title: string,
-  sender: {
-    name: string,
-    id: string
-  }
-  keyAvatar: number
+  keyAvatar: number,
+  message: ResponseMessageModel,
+  setCurrentOpenMessage: (m: ResponseMessageModel) => void,
+  setIsOpenMessage: (m: boolean) => void
 }
 
-const Message = ({ title, sender, keyAvatar }: MessageProps) => {
+const Message = ({
+  keyAvatar, message, setCurrentOpenMessage, setIsOpenMessage,
+}: MessageProps) => {
   const openMessage = (e: React.MouseEvent<HTMLButtonElement>) => {
     const { currentTarget } = e;
     (currentTarget as HTMLButtonElement).classList.add('neumorphic-pressed');
+    setIsOpenMessage(true);
+    setCurrentOpenMessage(message);
   };
 
   return (
-    <button type="button" className="message__btn neumorphic" onClick={openMessage}>
+    <button
+      type="button"
+      className="message__btn neumorphic"
+      onClick={openMessage}
+    >
       <Avatar
         key={keyAvatar}
         sx={{ bgcolor: deepPurple[500] }}
       >
-        {sender.name[0].toUpperCase()}
+        {message.sender.name[0].toUpperCase()}
       </Avatar>
-      <p className="message__title">{title}</p>
+      <p className="message__title">{message.title}</p>
     </button>
   );
 };

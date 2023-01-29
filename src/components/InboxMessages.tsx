@@ -7,11 +7,16 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Message from './message/Message';
 import MessageService from '../services/MessageService';
 import { getLocalStorage } from '../utils/localStorage';
-import MessageModel from '../models/MessageModel';
 import { socket } from '../socket/socket';
+import ResponseMessageModel from '../models/ResponseMessageModel';
 
-const InboxMessages = () => {
-  const [messages, setMessages] = useState<MessageModel[]>([]);
+interface InboxMessagesProps {
+  setCurrentOpenMessage: (m: ResponseMessageModel) => void,
+  setIsOpenMessage: (m: boolean) => void
+}
+
+const InboxMessages = ({ setCurrentOpenMessage, setIsOpenMessage }: InboxMessagesProps) => {
+  const [messages, setMessages] = useState<ResponseMessageModel[]>([]);
   const uniqueKey = () => Math.random();
 
   const getMessages = async () => {
@@ -42,9 +47,10 @@ const InboxMessages = () => {
             {messages.map(
               (m) => (
                 <Message
+                  message={m}
                   key={uniqueKey()}
-                  title={m.title}
-                  sender={m.sender}
+                  setIsOpenMessage={setIsOpenMessage}
+                  setCurrentOpenMessage={setCurrentOpenMessage}
                   keyAvatar={uniqueKey()}
                 />
               ),

@@ -2,7 +2,7 @@ interface MessageModel {
   sender: SenderOrRecipient,
   recipient: SenderOrRecipient,
   title: string,
-  body: string
+  body: string,
 }
 
 interface SenderOrRecipient {

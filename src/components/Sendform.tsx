@@ -37,6 +37,7 @@ const SendForm = () => {
     title: '',
     body: '',
   });
+
   const currentUser: string[] = [getLocalStorage('user').name];
 
   const getContacts = async (): Promise<void> => {
@@ -94,32 +95,19 @@ const SendForm = () => {
             <p style={{ margin: 0, fontSize: '1.2rem' }}>Send</p>
           </button>
         </Item>
-        <Autocomplete
-          id="from"
-          size="medium"
-          onChange={(event, value) => setMessage({
-            ...message,
-            sender: { ...message.sender, name: (value as string) },
-          })}
-          options={currentUser}
-          isOptionEqualToValue={(option, value) => option === value}
-          getOptionLabel={(option) => option}
-          renderInput={(params) => (
-            <TextField
-              required
-              {...params}
-              value={message.sender}
-              onChange={changeHandler}
-              variant="standard"
-              label="From:"
-              placeholder="name"
-              sx={{ margin: '8px' }}
-            />
-          )}
+        <TextField
+          required
+          fullWidth
+          value={currentUser}
+          variant="standard"
+          label="From:"
+          placeholder="name"
+          sx={{ margin: '8px' }}
         />
         <Autocomplete
           id="to"
           size="medium"
+          autoComplete
           onChange={
             (event, value) => setMessage({
               ...message,
@@ -133,7 +121,7 @@ const SendForm = () => {
             <TextField
               required
               {...params}
-              value={message.recipient}
+              value={message.recipient.name}
               onChange={changeHandler}
               variant="standard"
               label="To:"

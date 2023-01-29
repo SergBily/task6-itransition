@@ -1,9 +1,9 @@
 import { Socket } from 'socket.io-client';
-import MessageModel from './MessageModel';
+import ResponseMessageModel from './ResponseMessageModel';
 
 export interface ServerToClientEvents {
   session: (a: SessionData) => void
-  'message:receive': (m: MessageModel) => void
+  'message:receive': (m: ResponseMessageModel) => void
   userID: string
 }
 

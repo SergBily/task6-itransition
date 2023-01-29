@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
-
 import {
   InboxMessages, Logout, SendForm, SendMessages,
 } from '../components';
+import OpenMessage from '../components/OpenMessage';
+import ResponseMessageModel from '../models/ResponseMessageModel';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -16,25 +17,40 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-const Mail = () => (
-  <Box sx={{ flexGrow: 1 }}>
-    <Grid container spacing={0} sx={{ minHeight: '100vh' }}>
-      <Grid item xs={3} sx={{ minHeight: '100%', backgroundColor: '#6ec7ff' }}>
-        <Item sx={{ backgroundColor: 'transparent', border: 0 }}>
-          <Logout />
-        </Item>
-        <Item sx={{ backgroundColor: 'transparent', border: 0 }}>
-          <InboxMessages />
-        </Item>
-        <Item sx={{ backgroundColor: 'transparent', border: 0 }}>
-          <SendMessages />
-        </Item>
+const Mail = () => {
+  const [currentOpenMessage, setCurrentOpenMessage] = useState<ResponseMessageModel>();
+  const [isOpenMessage, setIsOpenMessage] = useState<boolean>(false);
+
+  return (
+    <Box sx={{ flexGrow: 1 }}>
+      <Grid container spacing={0} sx={{ minHeight: '100vh' }}>
+        <Grid item xs={3} sx={{ minHeight: '100%', backgroundColor: '#6ec7ff' }}>
+          <Item sx={{ backgroundColor: 'transparent', border: 0 }}>
+            <Logout />
+          </Item>
+          <Item sx={{ backgroundColor: 'transparent', border: 0 }}>
+            <InboxMessages
+              setCurrentOpenMessage={setCurrentOpenMessage}
+              setIsOpenMessage={setIsOpenMessage}
+            />
+          </Item>
+          <Item sx={{ backgroundColor: 'transparent', border: 0 }}>
+            <SendMessages />
+          </Item>
+        </Grid>
+        <Grid item xs={9} sx={{ minHeight: '100vh' }}>
+          {isOpenMessage
+            ? (
+              <OpenMessage
+                message={currentOpenMessage as ResponseMessageModel}
+                setIsOpenMessage={setIsOpenMessage}
+              />
+            )
+            : <SendForm />}
+        </Grid>
       </Grid>
-      <Grid item xs={9} sx={{ minHeight: '100vh' }}>
-        <SendForm />
-      </Grid>
-    </Grid>
-  </Box>
-);
+    </Box>
+  );
+};
 
 export default Mail;
